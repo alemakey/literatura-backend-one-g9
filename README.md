@@ -1,33 +1,57 @@
-﻿# Alura Challenge: Literatura (Oracle ONE G9)
+# Literatura Backend - ONE G9 (LiterAlura)
 
-Proyecto del **Challenge Literalura** (Back-End) del programa **Oracle Next Education (ONE) + Alura**.
+Proyecto del Challenge **LiterAlura** (Oracle Next Education - Grupo 9).
+Aplicación backend en **Java 17 + Spring Boot** para consultar y gestionar información de **libros** y **autores**,
+consumiendo datos desde una API externa y persistiendo en **PostgreSQL** con **JPA/Hibernate**.
 
-## Objetivo
-Consumir una API pública de libros, almacenar resultados en una base de datos y permitir consultas desde consola mediante un menú interactivo.
-
-## Tecnologías
-- Java 17+
+## 🚀 Tecnologías
+- Java 17
 - Spring Boot
 - Spring Data JPA
+- PostgreSQL
 - Maven
-- Base de datos: PostgreSQL o H2 (según configuración)
 - Jackson (JSON)
 
-## Funcionalidades
-- Búsqueda de libros por título
-- Listado de libros registrados
-- Listado de autores registrados
-- Listado de autores vivos en un año dado
-- Listado de libros por idioma
+## ✅ Funcionalidades (menú)
+- Buscar libros por título
+- Listar libros registrados
+- Listar autores registrados
+- Buscar autores por año (rango / vivos en cierto año)
+- Guardar resultados en base de datos
 
-## Configuración rápida
-1. Clona el repo y abre el proyecto en IntelliJ/Eclipse.
-2. Configura pplication.properties con tu base de datos.
-3. Ejecuta la aplicación.
+## 🧩 Requisitos
+- Java 17
+- Maven 3+
+- PostgreSQL (o cambiar configuración a H2 si lo deseas)
 
-## Notas
-- Este proyecto fue desarrollado como práctica de consumo de API + persistencia con JPA.
-- Estructura por capas: model, epository, service, dto, principal/menu.
+## ⚙️ Configuración
+Crea una base de datos en PostgreSQL, por ejemplo:
 
----
-Hecho por Víctor (Oracle ONE G9).
+```sql
+CREATE DATABASE literatura;
+Configura tus variables en application.properties (ejemplo):
+
+properties
+Copiar código
+spring.datasource.url=jdbc:postgresql://localhost:5432/literatura
+spring.datasource.username=postgres
+spring.datasource.password=TU_PASSWORD
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+▶️ Ejecución
+En la carpeta del proyecto:
+
+bash
+Copiar código
+mvn clean install
+mvn spring-boot:run
+🧪 Tests
+bash
+Copiar código
+mvn test
+📌 Autor
+Víctor Martínez Reyna
+Challenge Backend ONE G9
+
+yaml
+Copiar código
