@@ -16,7 +16,7 @@ public class Autor {
     private int fechaNacimiento;
     private int fechaFallecimiento;
 
-    @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Libro> libros;
 
     // Constructor sin argumentos
@@ -38,6 +38,7 @@ public class Autor {
         }
         return libros;
     }
+
     public void setLibros(List<Libro> libros) {
         this.libros = libros;
     }
@@ -46,7 +47,8 @@ public class Autor {
     public Long getId() {
         return id;
     }
-     public void setId(Long id) {
+
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -54,6 +56,7 @@ public class Autor {
     public String getNombre() {
         return nombre;
     }
+
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
@@ -62,6 +65,7 @@ public class Autor {
     public int getFechaNacimiento() {
         return fechaNacimiento;
     }
+
     public void setFechaNacimiento(int fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
@@ -70,22 +74,22 @@ public class Autor {
     public int getFechaFallecimiento() {
         return fechaFallecimiento;
     }
+
     public void setFechaFallecimiento(int fechaFallecimiento) {
         this.fechaFallecimiento = fechaFallecimiento;
     }
 
-
-
     @Override
     public String toString() {
 
-        return "-------- Autor --------" +"\n"+
-                "Nombre: " +  nombre + '\n' +
-                "Fecha de Nacimiento: " + fechaNacimiento +'\n'+
-                "Fecha de Fallecimiento: " + fechaFallecimiento +'\n'+
-                "Libros: "+libros.stream()
-                    .map(l->l.getTitulo())
-                    .collect(Collectors.toList())+'\n' +
+        return "-------- Autor --------" + "\n" +
+                "Nombre: " + nombre + '\n' +
+                "Fecha de Nacimiento: " + fechaNacimiento + '\n' +
+                "Fecha de Fallecimiento: " + fechaFallecimiento + '\n' +
+                "Libros: " + libros.stream()
+                        .map(l -> l.getTitulo())
+                        .collect(Collectors.toList())
+                + '\n' +
                 "-----------------------";
 
     }

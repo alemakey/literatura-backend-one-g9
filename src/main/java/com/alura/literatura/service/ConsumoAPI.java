@@ -6,28 +6,29 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
+/**
+ * Servicio para consumir APIs REST externas.
+ * El HttpClient se crea una sola vez y se reutiliza en todas las llamadas
+ * (es thread-safe y está diseñado para ser compartido).
+ */
 public class ConsumoAPI {
-    // Método para obtener datos desde una URL
-    public String obtenerDatos(String url){
-        // Crear un cliente HTTP
-        HttpClient client = HttpClient.newHttpClient();
-        // Construir la solicitud HTTP con la URL proporcionada
+
+    // Instancia única reutilizable (evita crear objetos costosos por cada llamada)
+    private final HttpClient client = HttpClient.newHttpClient();
+
+    public String obtenerDatos(String url) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
                 .build();
-        HttpResponse<String> response = null;
         try {
-            // Enviar la solicitud HTTP y obtener la respuesta
-            response = client
-                    .send(request, HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            return response.body();
         } catch (IOException e) {
-            // Manejar excepción de E/S
-            throw new RuntimeException(e);
+            throw new RuntimeException("Error de E/S al llamar la API: " + url, e);
         } catch (InterruptedException e) {
-            // Manejar excepción de interrupción
-            throw new RuntimeException(e);
+            // Restaurar el estado de interrupción del hilo antes de relanzar
+            Thread.currentThread().interrupt();
+            throw new RuntimeException("Llamada a la API interrumpida: " + url, e);
         }
-        String json = response.body();
-        return json;
     }
 }

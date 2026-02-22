@@ -7,54 +7,98 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implementación unificada de IConvierteDatos.
+ * Usa una instancia única de ObjectMapper (es thread-safe y costosa de crear).
+ *
+ * Reemplaza a ConvierteDatos y ConvierteDatosAutor (que eran casi idénticas).
+ */
 public class ConvierteDatos implements IConvierteDatos {
-    private ObjectMapper objectMapper = new ObjectMapper();
-    // Método para obtener un objeto de tipo T a partir de un JSON
+
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
+    /**
+     * Extrae el primer elemento de results[] del JSON y lo deserializa.
+     */
     @Override
     public <T> T obtenerDatos(String json, Class<T> clase) {
         try {
-            // Parsea el JSON a un JsonNode
-            JsonNode rootNode = objectMapper.readTree(json);
-
-            // Obtiene el array de resultados
-            JsonNode resultsArray = rootNode.get("results");
-
-            // Si el array de resultados no es nulo y tiene al menos un elemento
-            if (resultsArray != null && resultsArray.size() > 0) {
-                // Obtiene el primer objeto en el array de resultados
-                JsonNode firstResult = resultsArray.get(0);
-                // Convierte el primer resultado a la clase especificada
-                return objectMapper.treeToValue(firstResult, clase);
-            } else {
-                // Maneja el caso donde no se encontraron resultados
-                throw new RuntimeException("No se encontraron resultados en el JSON.");
-            }
-
+            JsonNode resultsArray = obtenerResultados(json);
+            return objectMapper.treeToValue(resultsArray.get(0), clase);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Error deserializando JSON a " + clase.getSimpleName(), e);
         }
-
     }
-    // Método para obtener una lista de objetos de tipo T a partir de un JSON
+
+    /**
+     * Extrae todos los elementos de results[] y los deserializa como lista.
+     */
     @Override
     public <T> List<T> obtenerDatosArray(String json, Class<T> clase) {
         try {
-            JsonNode rootNode = objectMapper.readTree(json);
+            JsonNode resultsArray = obtenerResultados(json);
+            List<T> resultList = new ArrayList<>();
+            for (JsonNode node : resultsArray) {
+                resultList.add(objectMapper.treeToValue(node, clase));
+            }
+            return resultList;
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Error deserializando array JSON a " + clase.getSimpleName(), e);
+        }
+    }
 
-            JsonNode resultsArray = rootNode.get("results");
+    /**
+     * Extrae el primer autor del primer resultado de results[].
+     * Incluye validación para evitar NullPointerException cuando un libro no tiene
+     * autores.
+     */
+    public <T> T obtenerDatosAutor(String json, Class<T> clase) {
+        try {
+            JsonNode resultsArray = obtenerResultados(json);
+            JsonNode authors = resultsArray.get(0).get("authors");
 
-            if (resultsArray != null && resultsArray.size() > 0) {
-                List<T> resultList = new ArrayList<>();
-                for (JsonNode node : resultsArray) {
-                    T result = objectMapper.treeToValue(node, clase);
-                    resultList.add(result);
+            if (authors == null || !authors.isArray() || authors.isEmpty()) {
+                throw new RuntimeException("El libro no tiene autores registrados en la API.");
+            }
+            return objectMapper.treeToValue(authors.get(0), clase);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Error deserializando autor desde JSON", e);
+        }
+    }
+
+    /**
+     * Extrae el primer autor de cada resultado para obtener una lista de autores.
+     * Incluye validación para evitar NullPointerException cuando un libro no tiene
+     * autores.
+     */
+    public <T> List<T> obtenerDatosAutorArray(String json, Class<T> clase) {
+        try {
+            JsonNode resultsArray = obtenerResultados(json);
+            List<T> resultList = new ArrayList<>();
+            for (JsonNode result : resultsArray) {
+                JsonNode authors = result.get("authors");
+                if (authors != null && authors.isArray() && !authors.isEmpty()) {
+                    resultList.add(objectMapper.treeToValue(authors.get(0), clase));
                 }
-                return resultList;
-            } else {
+            }
+            return resultList;
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Error deserializando lista de autores desde JSON", e);
+        }
+    }
+
+    // --- Helper privado ---
+
+    private JsonNode obtenerResultados(String json) {
+        try {
+            JsonNode rootNode = objectMapper.readTree(json);
+            JsonNode resultsArray = rootNode.get("results");
+            if (resultsArray == null || resultsArray.isEmpty()) {
                 throw new RuntimeException("No se encontraron resultados en el JSON.");
             }
+            return resultsArray;
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("JSON inválido recibido de la API", e);
         }
     }
 }

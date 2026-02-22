@@ -1,17 +1,14 @@
 package com.alura.literatura.dto;
 
-import com.alura.literatura.model.Autor;
-
 /**
- * DTO (Data Transfer Object) que representa los datos de un libro para transferencia de datos.
+ * DTO para transferencia de datos de un libro.
+ * Expone el nombre del autor como String en lugar de la entidad JPA Autor
+ * para desacoplar la capa de presentación de la de persistencia.
  */
-
 public record LibroDTO(
-        Long Id,
-        String titulo,
-        Autor autor,
-        String idioma,
-        Double descargas
-
-) {
+                Long id,
+                String titulo,
+                String autorNombre,
+                String idioma,
+                Double descargas) {
 }
