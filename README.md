@@ -1,57 +1,114 @@
-# Literatura Backend - ONE G9 (LiterAlura)
+# 📚 LiterAlura — Challenge Alura + Oracle ONE G9
 
-Proyecto del Challenge **LiterAlura** (Oracle Next Education - Grupo 9).
-Aplicación backend en **Java 17 + Spring Boot** para consultar y gestionar información de **libros** y **autores**,
-consumiendo datos desde una API externa y persistiendo en **PostgreSQL** con **JPA/Hibernate**.
+> Aplicación de consola desarrollada en **Java + Spring Boot** para explorar el mundo de los libros, conectándose a la API pública de [Gutendex](https://gutendex.com/) y almacenando los resultados en una base de datos.
 
-## 🚀 Tecnologías
-- Java 17
-- Spring Boot
-- Spring Data JPA
-- PostgreSQL
-- Maven
-- Jackson (JSON)
+---
 
-## ✅ Funcionalidades (menú)
-- Buscar libros por título
-- Listar libros registrados
-- Listar autores registrados
-- Buscar autores por año (rango / vivos en cierto año)
-- Guardar resultados en base de datos
+## 🗂️ Funcionalidades
 
-## 🧩 Requisitos
-- Java 17
-- Maven 3+
-- PostgreSQL (o cambiar configuración a H2 si lo deseas)
+Al iniciar la aplicación, se muestra un menú interactivo en consola con las siguientes opciones:
 
-## ⚙️ Configuración
-Crea una base de datos en PostgreSQL, por ejemplo:
+| # | Opción |
+|---|--------|
+| 1 | 🔍 Buscar y guardar un libro desde la API Gutendex |
+| 2 | 📖 Listar todos los libros registrados en la BD |
+| 3 | 👤 Listar todos los autores registrados en la BD |
+| 4 | 🌱 Buscar autores vivos en un año determinado |
+| 5 | 🌐 Filtrar libros por idioma (en / es) |
+| 6 | 🔎 Buscar un autor por nombre en la BD |
+| 7 | 🏆 Top 10 libros más descargados (desde la API) |
+| 8 | 📊 Top 10 libros más descargados (desde la BD) |
+| 9 | 🎂 Autores nacidos después de un año específico |
+| 10 | 🕊️ Autores fallecidos antes de un año específico |
+| 0 | 🚪 Salir |
 
-```sql
-CREATE DATABASE literatura;
-Configura tus variables en application.properties (ejemplo):
+---
 
-properties
-Copiar código
-spring.datasource.url=jdbc:postgresql://localhost:5432/literatura
-spring.datasource.username=postgres
-spring.datasource.password=TU_PASSWORD
-spring.jpa.hibernate.ddl-auto=update
-spring.jpa.show-sql=true
-▶️ Ejecución
-En la carpeta del proyecto:
+## 🛠️ Tecnologías utilizadas
 
-bash
-Copiar código
-mvn clean install
-mvn spring-boot:run
-🧪 Tests
-bash
-Copiar código
-mvn test
-📌 Autor
-Víctor Martínez Reyna
-Challenge Backend ONE G9
+- ☕ **Java 17**
+- 🍃 **Spring Boot 3.2.5**
+- 🗄️ **Spring Data JPA / Hibernate 6**
+- 💾 **H2 Database** (base de datos en memoria)
+- 📦 **Maven Wrapper** (no requiere Maven instalado)
+- 🌐 **API Gutendex** — catálogo público de libros del Proyecto Gutenberg
 
-yaml
-Copiar código
+---
+
+## 🚀 Cómo ejecutar el proyecto localmente
+
+### Requisitos previos
+
+- **JDK 17 o superior** instalado ([descargar aquí](https://www.oracle.com/java/technologies/downloads/))
+- **Git** instalado
+
+### Pasos
+
+**1. Clonar el repositorio**
+```bash
+git clone https://github.com/alemakey/literatura-backend-one-g9.git
+cd literatura-backend-one-g9
+```
+
+**2. Configurar la variable de entorno de Java** *(solo si no está configurada globalmente)*
+
+En Windows (PowerShell):
+```powershell
+$env:JAVA_HOME = "C:\Program Files\Java\jdk-25"
+```
+
+En macOS / Linux:
+```bash
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-17.jdk/Contents/Home
+```
+
+**3. Ejecutar la aplicación**
+
+En Windows:
+```powershell
+.\mvnw.cmd spring-boot:run
+```
+
+En macOS / Linux:
+```bash
+./mvnw spring-boot:run
+```
+
+**4. Interactuar con el menú**
+
+La aplicación se inicia en la consola y muestra el menú de opciones. Escribe el número de la opción deseada y presiona Enter.
+
+---
+
+## 🗃️ Consola de base de datos H2
+
+Mientras la app está corriendo, puedes explorar la BD en el navegador:
+
+- URL: [http://localhost:8080/h2-console](http://localhost:8080/h2-console)
+- **JDBC URL:** `jdbc:h2:mem:literaturadb`
+- **Usuario:** `sa`
+- **Contraseña:** *(dejar vacío)*
+
+---
+
+## 📁 Estructura del proyecto
+
+```
+src/
+└── main/
+    ├── java/com/alura/literatura/
+    │   ├── controller/     # Endpoints REST (LibroController)
+    │   ├── dto/            # Data Transfer Objects
+    │   ├── model/          # Entidades JPA (Libro, Autor) y records de la API
+    │   ├── principal/      # Lógica del menú de consola
+    │   ├── repository/     # Repositorios Spring Data JPA
+    │   └── service/        # Lógica de negocio y consumo de API
+    └── resources/
+        └── application.properties
+```
+
+---
+
+## 👨‍💻 Autor
+
+Desarrollado por **Victor** como parte del **Challenge LiterAlura** del programa Oracle Next Education (ONE) G9 con Alura Latam.
