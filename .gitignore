@@ -1,0 +1,8 @@
+# Archivos compilados y generados por Maven
+/target/
+
+# Maven Wrapper (binarios, no necesarios en el repo)
+.mvn/wrapper/maven-wrapper.jar
+
+# Bytecode de Java
+*.class
