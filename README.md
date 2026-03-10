@@ -1,5 +1,9 @@
 # 📚 LiterAlura — Challenge Alura + Oracle ONE G9
 
+[![Alura Latam](https://img.shields.io/badge/Alura%20Latam-Formación%20ONE-0070f3?style=for-the-badge)](https://www.aluracursos.com/) [![Oracle Next Education](https://img.shields.io/badge/Oracle%20Next%20Education-ONE%20G9-f80000?style=for-the-badge&logo=oracle&logoColor=white)](https://www.oracle.com/mx/education/oracle-next-education/) ![Proyecto educativo](https://img.shields.io/badge/Proyecto-educativo-blue?style=for-the-badge)
+
+![Java 17](https://img.shields.io/badge/Java-17-007396?style=for-the-badge&logo=java&logoColor=white) ![Spring Boot 3.2.x](https://img.shields.io/badge/Spring%20Boot-3.2.x-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white)
+
 > Aplicación de consola desarrollada en **Java + Spring Boot** para explorar el mundo de los libros, conectándose a la API pública de [Gutendex](https://gutendex.com/) y almacenando los resultados en una base de datos.
 
 ---
@@ -45,6 +49,7 @@ Al iniciar la aplicación, se muestra un menú interactivo en consola con las si
 ### Pasos
 
 **1. Clonar el repositorio**
+
 ```bash
 git clone https://github.com/alemakey/literatura-backend-one-g9.git
 cd literatura-backend-one-g9
@@ -53,11 +58,13 @@ cd literatura-backend-one-g9
 **2. Configurar la variable de entorno de Java** *(solo si no está configurada globalmente)*
 
 En Windows (PowerShell):
+
 ```powershell
 $env:JAVA_HOME = "C:\Program Files\Java\jdk-25"
 ```
 
 En macOS / Linux:
+
 ```bash
 export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-17.jdk/Contents/Home
 ```
@@ -65,11 +72,13 @@ export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-17.jdk/Contents/Home
 **3. Ejecutar la aplicación**
 
 En Windows:
+
 ```powershell
 .\mvnw.cmd spring-boot:run
 ```
 
 En macOS / Linux:
+
 ```bash
 ./mvnw spring-boot:run
 ```
